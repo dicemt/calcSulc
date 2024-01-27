@@ -1,4 +1,4 @@
-function output = calcSulc(subjects,subject_dir,options)
+function output = calcSulc(subjects,subject_dir,options,parcelatlas)
 % Calculate sulcal morphology from a FreeSurfer estimated surface mesh.
 % Designed to work with intermediate files from FreeSurfer analysis
 % pipeline.
@@ -78,7 +78,7 @@ for s = 1:length(list_subject)
     for hemi = {'lh','rh'}
         hemi = char(hemi);
         % load the surfaces and annot
-        subject_hemi = calcSulc_load(options,subject_dir,list_subject{s},hemi);
+        subject_hemi = calcSulc_load(options,subject_dir,list_subject{s},hemi,parcelatlas);
         
         % process each sulci
         for sulc    = options.list_sulc
@@ -86,8 +86,16 @@ for s = 1:length(list_subject)
             % to keep namespace more organized
             
             % isolate the mesh for the specific sulci
+            if strcmp(parcelatlas,'HCPMMP1')
+                switch hemi
+                case 'lh'
+                    sulc = cellstr(sprintf('L_%s',sulc{1}));
+                case 'rh'
+                    sulc = cellstr(sprintf('R_%s',sulc{1}));
+                end
+            end
             mesh    = calcSulc_isolate(options,subject_hemi,sulc);
-            
+
             % calculate the width
             if options.estimateWidth
                 opt_w = selectfields(options,{'estimateWidth','setWidthWalk'});
