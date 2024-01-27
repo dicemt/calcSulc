@@ -1,10 +1,13 @@
-function subject_hemi = calcSulc_load(options,subject_dir,subject,hemi)
+function subject_hemi = calcSulc_load(options,subject_dir,subject,hemi,parcelatlas)
 
+if nargin < 5
+    parcelatlas = 'aparc.a2009s'
+end
 %% there are some files we need no matter what
 subject = char(subject);
 
 % load the annot file
-fname_annot     = fullfile(subject_dir,subject,'label',sprintf('%s.aparc.a2009s.annot',hemi));
+fname_annot     = fullfile(subject_dir,subject,'label',sprintf('%s.%s_%s.annot',hemi,subject,parcelatlas));
 [v,label,cmap]  = read_annotation(fname_annot);
 
 % load the surface mesh
