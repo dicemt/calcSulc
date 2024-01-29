@@ -1,3 +1,4 @@
+function calcSulc_save(output)
 if isfield(output,'fname')
     % replace unallowed characters
     sulcnames = output.list_sulc;
@@ -14,4 +15,6 @@ if isfield(output,'fname')
     tbl = array2table(output.sulci_depth,'VariableNames',sulcnames);
     tbl = [table(output.list_subject','VariableNames',{'subID_calcSulc'}) tbl];
     writetable(tbl,[output.fname '_sulcidepth.csv']);
+else
+    disp('Not found output file name. No csv output.')
 end

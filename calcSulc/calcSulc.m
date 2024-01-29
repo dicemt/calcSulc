@@ -21,7 +21,12 @@ function output = calcSulc(subjects,subject_dir,options,parcelatlas)
 % 
 % 20180808 CRM
 % build 14
+% 20240129 DM
+% build 02
 
+if nargin < 4
+    parcelatlas = 'aparc.a2009s';
+end
 
 %% prep
 % get full list of subjects if asked
@@ -142,8 +147,9 @@ end
 if options.estimateDepth
     output.sulci_depth  = sub_s_d;
 end
+output.fname = options.fname;
 
 % write CSVs out too
-calcSulc_save
+calcSulc_save(output);
 
 % return output
